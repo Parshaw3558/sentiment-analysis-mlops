@@ -38,8 +38,9 @@ jobs:
       - name: Verify AWS Connection
         run: aws sts get-caller-identity
       
-      - name: Set DagsHub Token
-        run: echo "DAGSHUB_TOKEN=${{ secrets.DAGSHUB_TOKEN }}" >> $GITHUB_ENV
+      - name: Debug Secrets
+        run: |
+         echo "DAGSHUB TOKEN EXISTS: ${{ secrets.DAGSHUB_TOKEN != '' }}"
 
       - name: run pipeline
         env:
@@ -51,14 +52,14 @@ jobs:
 
       - name: Run model tests
         env:
-          CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
+          DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
           python -m unittest tests/test_model.py
 
       - name: Promote model to production
         if: success()
         env:
-          CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
+          DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: python scripts/promote_model.py
 
       - name: Run Flask app tests

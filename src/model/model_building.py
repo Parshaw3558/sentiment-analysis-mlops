@@ -8,8 +8,11 @@ import mlflow
 import mlflow.sklearn
 import json
 import dagshub
+import os
 
 mlflow.set_tracking_uri("https://dagshub.com/Parshaw3558/sentiment-analysis-mlops.mlflow")
+
+
 
 dagshub.init(repo_owner="Parshaw3558",repo_name="sentiment-analysis-mlops",mlflow=True)
 
@@ -56,6 +59,7 @@ from src.logger import logging
 import mlflow
 import mlflow.sklearn
 import json
+
 
 
 def load_data(file_path: str) -> pd.DataFrame:

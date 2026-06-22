@@ -78,12 +78,14 @@ def normalize_text(text):
 # -------------------------------------------------------------------------------------
 # Set up DagsHub credentials for MLflow tracking
 dagshub_token = os.getenv("DAGSHUB_TOKEN")
-if not dagshub_token:
-    raise EnvironmentError("DAGSHUB_TOKEN environment variable is not set")
 
-os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
-os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+if dagshub_token:
+    os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+    os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+else:
+    print("WARNING: DAGSHUB_TOKEN not found. Running without MLflow.")
 
+    
 dagshub_url = "https://dagshub.com"
 repo_owner = "Parshaw3558"
 repo_name = "sentiment-analysis-mlops"
